@@ -101,7 +101,7 @@ public class MyUI extends UI {
                 combo1.setItems("female", "male" );
 
                 ComboBox<String> combo2 = new ComboBox<String>("Status");
-                combo1.setItems("infant", "child", "adult");        
+                combo2.setItems("infant", "child", "adult");        
   
 
 
@@ -111,8 +111,55 @@ public class MyUI extends UI {
 
         Button button = new Button("Click Me");
         button.addClickListener(e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
+            if (name.isEmpty()){
+                msg.setValue("<strong>Please enter your name!</strong>" );
+                return;
+                }
+                if (combo2.isEmpty()){
+                    msg.setValue("<strong>Please select gender and status</strong>");
+                    return;
+                }       
+    
+    
+            if (combo1.isEmpty()){
+                            msg.setValue("<strong>Please select gender and status</strong> ");
+                            return;
+            }
+            Set<Fly> selectedElements = myGrid.getSelectedItems();
+            
+            int i =selectedElements.size();
+
+ 		if(selectedElements.size()<=0){
+                msg.setValue("<strong>Please select at least one flight!</strong>");
+
+                return;
+
+            }
+            double  totalCost ; 
+            double  cost  = 10.50;
+            if (combo2.getValue()=="child"){
+                cost = 10.50*.5;
+                totalCost =cost*i;
+                msg.setValue("<h3>The total cost is <strong>"+"€"+ totalCost+"</strong></h3>");
+                return;
+            }
+            if(combo2.getValue()=="infant"){
+                cost = 10.50*.25;
+                totalCost =cost*i;
+                msg.setValue("<h3>The total cost is <strong>"+"€"+ totalCost+"</strong></h3>");
+                return;
+            }
+               
+            if(combo2.getValue()=="adult"&& combo1.getValue()=="female"){
+                cost = 5.50;
+                totalCost =cost*i;
+                msg.setValue("<h3>The total cost is <strong>"+"€"+ totalCost+"</strong></h3>");
+                return;
+            }
+               totalCost = cost*i;        
+            msg.setValue("<h3>The total cost is <strong>"+"€"+ totalCost+"</strong></h3>");
+                                     
+                                           
         });
         layout1.addComponents(name,combo2,combo1);
         layout.addComponents(logo,myGrid,layout1, button, msg, new Label("B00766628"));
